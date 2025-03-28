@@ -30,10 +30,15 @@ final class EditorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($editor);
-            $entityManager->flush();
+            if ($editor->getName() === '') {
+                $this->addFlash('error', 'Le champ est obligatoire.');
+                // $this->addFlash('error2', 'L’éditeur existe déjà.');
+            } else {
+                $entityManager->persist($editor);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_editor_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_editor_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('editor/new.html.twig', [

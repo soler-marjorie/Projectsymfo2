@@ -58,17 +58,9 @@ jobs:
             run: |
               php bin/console d:m:m
 
-
-
           # Démarrer le serveur PHP
           - name: Démarrer le serveur PHP
             run: php -S 127.0.0.1:8000 -t public &
-
-          # Installer cypress (avec node)
-          - name: Installer Node.js et Cypress
-            uses: actions/setup-node@v3
-            with:
-                node-version: 18
 
           # Lancer les tests Cypress
           - name: Lancer les tests Cypress
