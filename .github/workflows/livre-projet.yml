@@ -18,8 +18,8 @@ jobs:
           mysql:
               image: mysql:8
               env:
-                  MYSQL_ROOT_PASSWORD: 
-                  MYSQL_DATABASE: classsymfo
+                  MYSQL_ROOT_PASSWORD: root
+                  MYSQL_DATABASE: cypress
               ports:
                   - 3306:3306
               options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -47,7 +47,7 @@ jobs:
           - name: Configurer l'environnement
             run: |
                 cp .env.test .env
-                echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/classsymfo" >> .env
+                echo "DATABASE_URL=mysql://root:root:@127.0.0.1:3306/cypress" >> .env
 
           # Migrer la base de données
           - name: Migrer la base de données
