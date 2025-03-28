@@ -40,18 +40,17 @@ jobs:
           - name: Récupérer le code du projet
             uses: actions/checkout@v4
 
-          - name: Vérifier si le fichier .env existe
-            run: ls -la .env
+          # Configurer le projet (dev -> test)
+          - name: Configurer l'environnement
+            run: |
+               cp .env.test .env
+               echo "DATABASE_URL=mysql://root:root:@127.0.0.1:3306/cypress" >> .env
 
           # Installer composer
           - name: Installer composer
             run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-          # Configurer le projet (dev -> test)
-          - name: Configurer l'environnement
-            run: |
-                cp .env.test .env
-                echo "DATABASE_URL=mysql://root:root:@127.0.0.1:3306/cypress" >> .env
+         
 
           # Migrer la base de données
           - name: Migrer la base de données
