@@ -29,8 +29,9 @@ jobs:
                 --health-retries=5
 
         steps:
-          - name: Checkout code
-            run: echo "Ubuntu deployé"
+          # Récupérer le code du projet (action github)
+          - name: Récupérer le code du projet
+            uses: actions/checkout@v4
 
           #Installer PHP (même version que l'environnement dev)
           - name: Installer PHP et Composer
@@ -40,21 +41,13 @@ jobs:
                 extensions: mbstring, intl, pdo_mysql, sodium
                 tools: composer:v2
 
-          # Récupérer le code du projet (action github)
-          - name: Récupérer le code du projet
-            uses: actions/checkout@v4
-
           # Configurer le projet (dev -> test)
           - name: Configurer l'environnement
             run: |
-              if [ ! -f .env ]; then
-              touch .env
-              echo "Fichier .env créé"
-              fi
               cp .env .env.test
               echo "APP_ENV=test" >> .env
               echo "APP_ENV=test" >> .env.test
-              echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env
+              echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env.test
 
           # Installer composer
           - name: Installer composer
