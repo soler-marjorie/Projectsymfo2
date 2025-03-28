@@ -1,6 +1,5 @@
 name: Deploy Ubuntu Latest
 
-# se déclanche sur :
 on:
     push:
         branches: [main]
