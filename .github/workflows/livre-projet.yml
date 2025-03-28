@@ -56,8 +56,8 @@ jobs:
           # Migrer la base de données
           - name: Migrer la base de données
             run: |
-              php bin/console d:d:c
               php bin/console d:m:m
+
 
 
           # Démarrer le serveur PHP
