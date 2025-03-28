@@ -50,7 +50,7 @@ jobs:
                cp .env .env.test
                echo "APP_ENV=test" >> .env
                echo "APP_ENV=test" >> .env.test
-               echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env.test
+               echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env
 
           # Installer composer
           - name: Installer composer
