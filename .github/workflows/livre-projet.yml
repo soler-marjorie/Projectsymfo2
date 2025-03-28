@@ -40,7 +40,10 @@ jobs:
           - name: Récupérer le code du projet
             uses: actions/checkout@v4
 
-            # Installer composer
+          - name: Vérifier si le fichier .env existe
+            run: ls -la .env
+
+          # Installer composer
           - name: Installer composer
             run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
