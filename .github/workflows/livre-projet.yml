@@ -44,17 +44,10 @@ jobs:
           # Configurer le projet (dev -> test)
           - name: Configurer l'environnement
             run: |
-              if [ ! -f .env ]; then
-              echo "APP_ENV=dev" > .env
-              echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env
-              echo "Fichier .env créé"
-              fi
               cp .env .env.test
+              echo "APP_ENV=test" >> .env
               echo "APP_ENV=test" >> .env.test
-              # cp .env .env.test
-              # echo "APP_ENV=test" >> .env
-              # echo "APP_ENV=test" >> .env.test
-              # echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env.test
+              echo "DATABASE_URL=mysql://root:root@127.0.0.1:3306/cypress" >> .env
 
           # Installer composer
           - name: Installer composer
