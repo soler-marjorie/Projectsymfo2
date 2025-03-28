@@ -2,9 +2,9 @@ name: Deploy Ubuntu Latest
 
 on:
     push:
-        branches: [main]
+        branches: [master]
     pull_request:
-        branches: [main]
+        branches: [master]
 
 # liste des jobs à exécuter
 jobs:
