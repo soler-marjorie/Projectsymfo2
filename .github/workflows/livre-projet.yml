@@ -51,11 +51,14 @@ jobs:
 
           # Installer composer
           - name: Installer composer
-            run: composer install --no-interaction --prefer-dist --optimize-autoloader
+            run: composer install --no-interaction --prefer-dist
 
           # Migrer la base de données
           - name: Migrer la base de données
-            run: php bin/console doctrine:migrations:migrate --no-interaction
+            run: |
+              php bin/console d:d:c
+              php bin/console d:m:m
+
 
           # Démarrer le serveur PHP
           - name: Démarrer le serveur PHP
@@ -68,8 +71,5 @@ jobs:
                 node-version: 18
 
           # Lancer les tests Cypress
-          - name: Installer les dépendances front-end
-            run: npm install
-
           - name: Lancer les tests Cypress
-            run: npx cypress run
+            uses: cypress-io/github-action@v6
