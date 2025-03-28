@@ -1,0 +1,15 @@
+name: Deploiment Ubuntu
+# se déclanche sur :
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+# liste des jobs à exécuter
+jobs:
+    deploy:
+        # démarre une image ubuntun
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              run: echo "Ubuntu deployé"
