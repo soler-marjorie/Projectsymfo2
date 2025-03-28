@@ -27,6 +27,7 @@ jobs:
         steps:
           - name: Checkout code
             run: echo "Ubuntu deployé"
+
           #Installer PHP (même version que l'environnement dev)
           - name: Installer PHP et Composer
             uses: shivammathur/setup-php@v2
@@ -35,13 +36,13 @@ jobs:
                 extensions: mbstring, intl, pdo_mysql, sodium
                 tools: composer:v2
 
-          # Installer composer
-          - name: Installer composer
-            run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
           # Récupérer le code du projet (action github)
           - name: Récupérer le code du projet
             uses: actions/checkout@v4
+
+            # Installer composer
+          - name: Installer composer
+            run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
           # Configurer le projet (dev -> test)
           - name: Configurer l'environnement
