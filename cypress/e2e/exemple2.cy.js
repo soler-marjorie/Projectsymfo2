@@ -1,3 +1,4 @@
+//Exercice 1 - NOT OK
 describe('Test NOTOK', () => {
   it('Ne permet pas d\'ajouter une catégorie sans nom', () => {
     cy.visit('https://127.0.0.1:8000/category/new')

@@ -1,0 +1,69 @@
+name: Deploy Ubuntu Latest
+
+# se déclanche sur :
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+# liste des jobs à exécuter
+jobs:
+    nom-job:
+        # démarre une image ubuntun
+        runs-on: ubuntu-latest
+
+     # Services nécessaires : Base de données MySQL 8
+        services:
+          mysql:
+              image: mysql:8
+              env:
+                  MYSQL_ROOT_PASSWORD: 
+                  MYSQL_DATABASE: classsymfo
+              ports:
+                  - 3306:3306
+              options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
+        steps:
+          #Installer PHP (même version que l'environnement dev)
+          - name: Installer PHP et Composer
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: 8.2
+                extensions: pdo, pdo_mysql
+                tools: composer:v2
+
+          # Installer composer
+          - name: Installer composer
+            run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+          # Récupérer le code du projet (action github)
+          - name: Récupérer le code du projet
+            uses: actions/checkout@v4
+
+          # Configurer le projet (dev -> test)
+          - name: Configurer l'environnement
+            run: |
+                cp .env.test .env
+                echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/classsymfo" >> .env
+
+          # Migrer la base de données
+          - name: Migrer la base de données
+            run: php bin/console doctrine:migrations:migrate --no-interaction
+
+          # Démarrer le serveur PHP
+          - name: Démarrer le serveur PHP
+            run: php -S 127.0.0.1:8000 -t public &
+
+          # Installer cypress (avec node)
+          - name: Installer Node.js et Cypress
+            uses: actions/setup-node@v3
+            with:
+                node-version: 18
+
+          # Lancer les tests Cypress
+          - name: Installer les dépendances front-end
+            run: npm install
+
+          - name: Lancer les tests Cypress
+            run: npx cypress run
