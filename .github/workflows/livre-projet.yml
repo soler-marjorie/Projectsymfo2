@@ -18,15 +18,22 @@ jobs:
           mysql:
               image: mysql:8
               env:
+                  MYSQL_ALLOW_EMPTY_PASSWORD: "no"
                   MYSQL_ROOT_PASSWORD: root
                   MYSQL_DATABASE: cypress
+                  MYSQL_USER: Marjo
+                  MYSQL_PASSWORD: test1234
               ports:
                   - 3306:3306
-              options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+              options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
         steps:
           - name: Checkout code
             run: echo "Ubuntu deployé"
+
+          - name: Vérifier la connexion MySQL
+            run: |
+                mysql --host=127.0.0.1 --user=Marjo --password=test1234 --execute="SHOW DATABASES;"
 
           #Installer PHP (même version que l'environnement dev)
           - name: Installer PHP et Composer
